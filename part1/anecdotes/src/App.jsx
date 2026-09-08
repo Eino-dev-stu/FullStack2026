@@ -5,6 +5,7 @@ const Button = (props) => {
 const Randomize = (props) => {
   return Math.floor(Math.random() * props.length)
 }
+
 const App = () => {
   const anecdotes = [
     "If it hurts, do it more often.",
@@ -18,14 +19,34 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes] = useState(Array.from({ length: 8 }, () => 0))
+  const [winner, setWinner] = useState(0)
+  const vote = () => {
+    const copy = [...votes]
+    copy[selected] += 1
+    setVotes(copy)
+    let winnerIndex = votes.indexOf(Math.max(...votes))
+    setWinner(anecdotes[winnerIndex])
+  }
 
   return (
     <div>
+      <h1>Anecdote for the day</h1>
+      <br></br>
+      {anecdotes[selected]}
+      <br></br>
+      has {votes[selected]} votes
+      <br></br>
       <Button
         onClick={() => setSelected(Randomize(anecdotes))}
         text="random anecdote"
       />
-      {anecdotes[selected]}
+      <Button onClick={vote} text="vote" />
+      <br></br>
+      <h1>Anecdote with most votes</h1>
+      winner {winner}
+      <br></br>
+      has {Math.max(...votes)} votes
     </div>
   )
 }
