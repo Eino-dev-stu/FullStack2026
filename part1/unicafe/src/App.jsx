@@ -3,8 +3,6 @@ const Button = (props) => {
   return <button onClick={props.onClick}>{props.text}</button>
 }
 const Stats = (props) => {
-  //let all = props.good + props.bad + props.neutral
-
   console.log("count", props)
   if (props.count == 0) {
     return (
@@ -16,27 +14,47 @@ const Stats = (props) => {
     return (
       <div>
         <h1>statistics</h1>
-        <StatisticsLine text="good" value={props.good} />
-        <StatisticsLine text="bad" value={props.bad} />
-        <StatisticsLine text="neutral" value={props.neutral} />
-        <StatisticsLine
-          text="all"
-          value={props.good + props.bad + props.neutral}
-        />
-        <StatisticsLine
-          text="average"
-          value={(props.good - props.bad) / props.count}
-        />
-        <StatisticsLine text="positive" value={props.good / props.count} />
+        <table>
+          <tbody>
+            <tr>
+              <StatisticsLine text="good" value={props.good} />
+            </tr>
+            <tr>
+              <StatisticsLine text="bad" value={props.bad} />
+            </tr>
+            <tr>
+              <StatisticsLine text="neutral" value={props.neutral} />
+            </tr>
+            <tr>
+              <StatisticsLine
+                text="all"
+                value={props.good + props.bad + props.neutral}
+              />
+            </tr>
+            <tr>
+              <StatisticsLine
+                text="average"
+                value={(props.good - props.bad) / props.count}
+              />
+            </tr>
+            <tr>
+              <StatisticsLine
+                text="positive"
+                value={props.good / props.count}
+              />
+            </tr>
+          </tbody>
+        </table>
       </div>
     )
   }
 }
 const StatisticsLine = (props) => {
   return (
-    <div>
-      {props.text} {props.value}
-    </div>
+    <>
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+    </>
   )
 }
 const App = () => {
