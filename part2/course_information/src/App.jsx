@@ -21,15 +21,18 @@ const Part = (props) => {
 }
 
 const Total = (props) => {
-  console.log(props, "here")
+  console.log(props.course, "here toltaö")
+  const initValue = 0
+  const sumReduce = props.course.parts.reduce((accumulator, currentValue) => {
+    console.log("accu", accumulator)
+    console.log("current", currentValue)
+
+    return accumulator + currentValue.exercises
+  }, initValue)
+  console.log(sumReduce, "reduce")
   return (
     <div>
-      <p>
-        number of exercises{" "}
-        {props.course.parts[0].exercises +
-          props.course.parts[1].exercises +
-          props.course.parts[2].exercises}
-      </p>
+      <p>number of exercises {sumReduce}</p>
     </div>
   )
 }
