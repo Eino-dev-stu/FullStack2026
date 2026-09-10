@@ -1,6 +1,7 @@
 import Person from "./Person"
 
 const ShowPersons = ({ personsToShow }) => {
+  console.log("Current data:", personsToShow)
   return (
     <ul>
       {personsToShow.map((person) => (
@@ -10,6 +11,3 @@ const ShowPersons = ({ personsToShow }) => {
   )
 }
 export default ShowPersons
-//<li key={person.id}>
-//       {person.id} {person.name} {person.number}
-//    </li>

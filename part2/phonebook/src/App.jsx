@@ -1,33 +1,45 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+
+import personService from "./services/persons"
 import AddPerson from "./components/AddPerson"
 import Filter from "./components/Filter"
 import ShowPersons from "./components/ShowPersons"
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "050 555", id: "1" },
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
   const [filterLine, setFilter] = useState("")
+
+  useEffect(() => {
+    personService.getAll().then((response) => {
+      setPersons(response.data)
+    })
+  }, [])
+  console.log("render", persons.length, "notes")
 
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
       name: newName,
       number: newNumber,
-      id: String(persons.length + 1),
     }
-    console.log(persons, personObject.name, "look")
+
     const match = persons.filter((person) => person.name === personObject.name)
     console.log(match, "match")
     if (match.length >= 1) {
       alert("stop")
     } else {
-      setPersons(persons.concat(personObject))
-      setNewName("")
-      setNewNumber("")
+      //setPersons(persons.concat(personObject))
+      //setNewName("")
+      //setNewNumber("")
       console.log("button clicked", event.target)
+
+      personService.create(personObject).then((response) => {
+        setPersons(persons.concat(response.data))
+        setNewName("")
+        setNewNumber("")
+      })
     }
   }
 
