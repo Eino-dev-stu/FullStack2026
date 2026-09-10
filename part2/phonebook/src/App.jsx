@@ -1,8 +1,11 @@
 import { useState } from "react"
-//import Person from "./components/Person"
+import AddPerson from "./components/AddPerson"
+import Filter from "./components/Filter"
+import ShowPersons from "./components/ShowPersons"
+
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "050 555" },
+    { name: "Arto Hellas", number: "050 555", id: "1" },
   ])
   const [newName, setNewName] = useState("")
   const [newNumber, setNewNumber] = useState("")
@@ -13,6 +16,7 @@ const App = () => {
     const personObject = {
       name: newName,
       number: newNumber,
+      id: String(persons.length + 1),
     }
     console.log(persons, personObject.name, "look")
     const match = persons.filter((person) => person.name === personObject.name)
@@ -45,36 +49,23 @@ const App = () => {
       : persons.filter((person) =>
           person.name.toLowerCase().includes(filterLine.toLowerCase()),
         )
-  console.log(filterLine, persons, personsToShow, " filt")
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <form></form>
-      <div>
-        filter shown names:{" "}
-        <input value={filterLine} onChange={handleFilterChange} />
-      </div>
-      <h2>Add a new person</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
+      <Filter filterLine={filterLine} handleFilterChange={handleFilterChange} />
 
-      <ul>
-        {personsToShow.map((person) => (
-          <li>
-            {person.name} {person.number}
-          </li>
-        ))}
-      </ul>
+      <h2>Add a new person</h2>
+      <AddPerson
+        addPerson={addPerson}
+        newName={newName}
+        newNumber={newNumber}
+        handleNameChange={handleNameChange}
+        handleNumberChange={handleNumberChange}
+      />
+
+      <h2>Numbers</h2>
+      <ShowPersons personsToShow={personsToShow} />
     </div>
   )
 }
