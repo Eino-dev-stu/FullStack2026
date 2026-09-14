@@ -21,7 +21,7 @@ const App = () => {
     })
   }, [])
   console.log("render", persons.length, "notes")
-  const baseUrl = "http://localhost:3001/api/persons/"
+  const baseUrl = "https://fsphonebook-e004.onrender.com/api/persons"
 
   const remove = (id) => {
     if (window.confirm("Delete?")) {

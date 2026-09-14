@@ -9,7 +9,24 @@ POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-    "name":"www",
+    "name":"wswssw",
+    "number": "555"
+    
+}
+
+### 
+GET https://fsphonebook-e004.onrender.com/api/persons
+
+###
+GET https://fsphonebook-e004.onrender.com/api/persons/1
+
+
+###
+POST https://fsphonebook-e004.onrender.com/api/persons
+Content-Type: application/json
+
+{
+    "name":"latset",
     "number": "555"
     
 }
