@@ -21,7 +21,7 @@ const App = () => {
     })
   }, [])
   console.log("render", persons.length, "notes")
-  const baseUrl = "http://localhost:3001/persons/"
+  const baseUrl = "http://localhost:3001/api/persons/"
 
   const remove = (id) => {
     if (window.confirm("Delete?")) {
@@ -66,7 +66,7 @@ const App = () => {
             setNewNumber("")
             setSuccessMessage("Done edititng")
           })
-          .catch((error) => {
+          .catch(() => {
             console.log("fail")
             setErrorMessage(`${personObject.name} person does not exist`)
             setTimeout(() => {
