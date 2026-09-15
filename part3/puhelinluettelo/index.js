@@ -3,6 +3,7 @@ const morgan = require("morgan")
 const cors = require("cors")
 
 const app = express()
+app.use(express.static("dist"))
 app.use(cors())
 app.use(morgan("tiny"))
 app.use(express.json())
@@ -30,9 +31,9 @@ let persons = [
   },
 ]
 
-app.get("/", (request, response) => {
-  response.send("<h1>Hello World!</h1>")
-})
+// app.get("/", (request, response) => {
+//   response.send("<h1>Hello World!</h1>")
+// })
 
 app.get("/api/persons", (request, response) => {
   response.json(persons)
