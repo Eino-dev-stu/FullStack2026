@@ -1,4 +1,7 @@
+require("dotenv").config()
+
 const express = require("express")
+const Person = require("./models/person")
 const morgan = require("morgan")
 //const cors = require("cors") removed
 
@@ -36,19 +39,29 @@ let persons = [
 // })
 
 app.get("/api/persons", (request, response) => {
-  response.json(persons)
+  Person.find().then((person) => {
+    response.json(person)
+  })
 })
 
 app.get("/api/persons/:id", (request, response) => {
-  const id = parseInt(request.params.id)
-  console.log(id, "id at get one")
-  const person = persons.find((person) => person.id === id)
+  //   const id = parseInt(request.params.id)
+  //   console.log(id, "id at get one")
+  //   const person = persons.find((person) => person.id === id)
 
-  if (person) {
+  //   if (person) {
+  //     response.json(person)
+  //   } else {
+  //     response.status(404).end()
+  //   }
+  console.log(request.params.id, "idparam")
+  //   Person.findById(parseInt(request.params.id)).then((person) => {
+  //     response.json(person)
+  //   })
+  const myId = parseInt(request.params.id)
+  Person.findOne({ myId: myId }).then((person) => {
     response.json(person)
-  } else {
-    response.status(404).end()
-  }
+  })
 })
 app.delete("/api/persons/:id", (request, response) => {
   const id = parseInt(request.params.id)
@@ -59,7 +72,7 @@ app.delete("/api/persons/:id", (request, response) => {
 })
 
 const generateId = () => {
-  const maxId = Math.floor(Math.random() * 1000)
+  const maxId = Math.floor(Math.random() * 999999)
   return maxId
 }
 app.post("/api/persons", (request, response) => {
@@ -75,15 +88,23 @@ app.post("/api/persons", (request, response) => {
       error: "name must be unique'",
     })
   }
-  const person = {
+  //   const person = {
+  //     name: body.name,
+  //     number: body.number,
+  //     id: generateId(),
+  //   }
+  const person = new Person({
     name: body.name,
     number: body.number,
-    id: generateId(),
-  }
+    myId: generateId(),
+  })
+  person.save().then((savedPerson) => {
+    response.json(savedPerson)
+  })
 
   persons = persons.concat(person)
   console.log(person, "person")
-  response.json(person)
+  //response.json(person)
 })
 app.get("/info", (request, response) => {
   response.json(
