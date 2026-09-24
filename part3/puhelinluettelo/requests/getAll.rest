@@ -1,20 +1,21 @@
 GET http://localhost:3002/api/persons
 ###
-GET http://localhost:3002/api/persons/648
- 
-###
-DELETE  http://localhost:3002/api/persons/648
-###
-POST http://localhost:3001/api/persons
+POST http://localhost:3002/api/persons
 Content-Type: application/json
 
 {
-    "name":"wswssw",
-    "number": "555"
+    "name":"yyyy",
+    "number": "12345-124113421233"
     
 }
+###
+GET http://localhost:3002/api/persons/6aaa5426511bfe02fa91b7ad
+ 
+###
+DELETE  http://localhost:3002/api/persons/6aab8b61ce8b3afeaf2010de
+###
 
-### 
+
 GET https://fsphonebook-e004.onrender.com/api/persons
 
 ###
@@ -23,10 +24,20 @@ GET https://fsphonebook-e004.onrender.com/api/persons/1
 
 ###
 POST http://localhost:3002/api/persons
+Content-Type: application/jsons
+
+{
+    "name":"qeeeee",
+    "number": "12345123412"
+    
+}
+
+###
+PUT http://localhost:3002/api/persons/6aab95bed4f5d38db7c232dc
 Content-Type: application/json
 
 {
-    "name":"llttl",
-    "number": "55S5"
+    "name":"aaasss",
+    "number": "99888899"
     
 }

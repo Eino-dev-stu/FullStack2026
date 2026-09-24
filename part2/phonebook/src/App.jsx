@@ -21,12 +21,12 @@ const App = () => {
     })
   }, [])
   console.log("render", persons.length, "notes")
-  const baseUrl = "https://fsphonebook-e004.onrender.com/api/persons"
   //const baseUrl = "https://fsphonebook-e004.onrender.com/api/persons"
+  const baseUrl = "/api/persons"
 
   const remove = (id) => {
     if (window.confirm("Delete?")) {
-      personService.remove(baseUrl.concat(id)).then(() => {
+      personService.remove(baseUrl.concat("/").concat(id)).then(() => {
         personService.getAll().then((response) => {
           setPersons(response.data)
         })
@@ -78,15 +78,26 @@ const App = () => {
         alert("stopped")
       }
     } else {
-      personService.create(personObject).then((response) => {
-        setPersons(persons.concat(response.data))
-        setNewName("")
-        setNewNumber("")
-        setSuccessMessage(`Done adding ${personObject.name}`)
-        setTimeout(() => {
-          setSuccessMessage(null)
-        }, 3000)
-      })
+      personService
+        .create(personObject)
+        .then((response) => {
+          setPersons(persons.concat(response.data))
+          setNewName("")
+          setNewNumber("")
+          setSuccessMessage(`Done adding ${personObject.name}`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 3000)
+        })
+        .catch((error) => {
+          console.log(error.response.data.error, "error in front less thn 3 ")
+          setErrorMessage(
+            `${error.response.data.error} error in front less thn 3`,
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
+        })
     }
   }
 

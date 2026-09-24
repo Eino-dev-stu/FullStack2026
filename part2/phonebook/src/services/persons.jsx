@@ -9,12 +9,14 @@ const create = (newObject) => {
   return axios.post(baseUrl, newObject)
 }
 const remove = (url) => {
-  console.log("URL", url)
-  return axios.delete(url)
+  const fullUrl = baseUrl.concat(url.concat("/"))
+  console.log("URL", baseUrl, url, fullUrl)
+
+  return axios.delete(url.concat("/"))
 }
 const edit = (url, number) => {
-  console.log("edit data", url, number)
-  return axios.put(baseUrl.concat(url), number)
+  console.log("edit data", baseUrl, url, number)
+  return axios.put(baseUrl.concat("/").concat(url), number)
 }
 
 export default {
