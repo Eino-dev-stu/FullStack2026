@@ -1,7 +1,13 @@
-const { test, describe } = require('node:test')
+const { test, describe,beforeEach } = require('node:test')
 const assert = require('node:assert')
+
 const listHelper = require('../utils/list_helper')
 const logger = require('../utils/logger')
+
+
+const app = require('../app')
+
+
 const listWithMany = [
   {
     _id: "5a422a851b54a676234d17f7",
@@ -52,6 +58,7 @@ test('dummy returns one', () => {
   const result = listHelper.dummy(blogs)
   assert.strictEqual(result, 1)
 })
+
 describe('total likes', () => {
     
   
