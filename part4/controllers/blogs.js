@@ -11,7 +11,7 @@ const { requestLogger,tokenExtractor } = require('../utils/middleware')
 //   }
 //   return null
 // }
-const token = requestLogger
+
 blogsRouter.get('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
   if (blog) {
@@ -29,11 +29,15 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', async (request, response, next) => {
-
+    console.log("token")
+    
   const body = request.body
   //const user = await User.findById(body.user)
    //const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    console.log("token",decodedToken)
+  
+  
   if (!decodedToken.id) {
     return response.status(401).json({ error: 'token invalid' })
   }
