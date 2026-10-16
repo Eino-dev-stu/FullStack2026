@@ -34,7 +34,7 @@ test('right amount of blogs returned',async () => {
 test('blogs have id field', async () => {
     const response = await api.get('/api/blogs')
     
-    console.log(response.body[0])
+    
     for (let i = 0; i < response.body.length; i++) {
     //assert.ok(Object.hasOwn(response.body[i], 'id'))
         assert.notStrictEqual(
@@ -64,7 +64,7 @@ test('POST adds a blog', async () => {
 
 })
 
-test('POST addds blog with correct content', async () => {
+test('POST adds blog with correct content', async () => {
     const newBlog = ({
     title: "Type wars",
     author: "Robert C. Martin",
@@ -81,9 +81,76 @@ test('POST addds blog with correct content', async () => {
    delete result.body.id
    assert.deepStrictEqual(result.body,newBlog)
 })
+    test('Missing field "likes" becomes 0', async ()=> {
+         const newBlog = ({
+            title: "Type wars",
+            author: "Robert C. Martin",
+            url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html"
+   })
+   const result = await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+    
+    assert.strictEqual(result.body.likes, 0)
 
+    })
+    test('missing "url"  returns 400', async ()=> {
+        const newBlog = ({
+            title: "Type wars",
+            author: "Robert C. Martin",
+            likes: 11
+   })   
+        
+        const result = await api
+             .post('/api/blogs')
+             .send(newBlog)
+             .expect(400)
+            
+     })
+
+    test('missing "title" returns 400', async ()=> {
+        const newBlog = ({
+            author: "Robert C. Martin",
+            url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
+            likes: 11
+   })   
+        
+        const result = await api
+             .post('/api/blogs')
+             .send(newBlog)
+             .expect(400)
+     })
+
+      test('Updating field "likes" works', async ()=> {
+        const response = await api.get('/api/blogs')
+        const payload = ({
+            likes: 66
+        })
+        
+        const result = await api
+            .put(`/api/blogs/${response.body[0].id}`)
+            .send(payload)
+        const responseOne = await api.get(`/api/blogs/${response.body[0].id}`)
+    
+        assert.strictEqual(responseOne.body.likes, result.body.likes)
+    })
+    test('deleting blog from DB works', async ()=> {
+        const response = await api.get('/api/blogs')
+        const result = await api
+            .delete(`/api/blogs/${response.body[0].id}`)
+            .expect(204)
+        
+        
+        const responseAfter = await api.get('/api/blogs')
+        
+        assert.strictEqual(responseAfter.body.length, response.body.length -1)
+    })
 
 })
+   
+
 after(async () => {
   await mongoose.connection.close()
 })
